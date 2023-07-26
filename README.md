@@ -10,7 +10,6 @@ MaxSortedTopRows  = 10000000 ; Edited from 1 million to 10 million
 ResultSetMaxRows  = 10000000 ; Edited from 1 million to 10 million
 ```
 
-
 ## Export LPDC production data
 
 First, download the production database onto your local system since some database parameters have to be tweaked before data can be correctly exported. The [Note on Virtuoso settings](#note-on-virtuoso-settings) section describes what file and which parameters need to be changed.
