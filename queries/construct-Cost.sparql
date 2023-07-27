@@ -7,7 +7,6 @@ CONSTRUCT {
 WHERE {
   VALUES ?type {
     <http://data.europa.eu/m8g/Cost>
-
   }
   
   GRAPH ?g {
