@@ -167,6 +167,23 @@ DELETE WHERE {
 }
 ```
 
+In addition, delete all instances of `ext:wasInGraph`, which is the predicate used to map the types back to their correct graphs:
+
+```
+PREFIX ext: <http://mu.semte.ch/vocabularies/ext/>
+
+DELETE {
+  GRAPH ?g {
+    ?s ext:wasInGraph ?graph .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    ?s ext:wasInGraph ?graph .
+  }
+}
+```
+
 Restore the values inside `config/virtuoso/virtuoso-production.ini` back to their original values (back to 1 million from 10 million).
 
 ## Sanity Checks
