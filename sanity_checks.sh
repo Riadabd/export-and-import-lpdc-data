@@ -6,18 +6,18 @@ FAILED=0
 OUT_FOLDER_LOKET="tmp_count_loket/"
 OUT_FOLDER_LPDC="tmp_count_lpdc/"
 
-SPARQL_ENDPOINT="http://localhost:8890/sparql"
+LPDC_SPARQL_ENDPOINT="http://localhost:8890/sparql"
 
 WRITE_TEMP_GRAPH=false
 
 while :; do
   case $1 in
-    --sparql-endpoint)
+    --lpdc-sparql-endpoint)
        if [ -z "$2" ] || [[ "$2" == -* ]]; then
         echo "[Error] --sparql-endpoint option requires a value"
         exit 1
       fi
-      SPARQL_ENDPOINT="$2"
+      LPDC_SPARQL_ENDPOINT="$2"
       shift 1
       ;;
     -?*)
@@ -47,7 +47,7 @@ for path in sanity_queries/*.sparql; do
 
     query=$(cat "$path")
     echo "[INFO] Generating count for $filename ..."
-    if curl --fail -X POST "$SPARQL_ENDPOINT" \
+    if curl --fail -X POST "$LPDC_SPARQL_ENDPOINT" \
       -H 'Accept: text/plain' \
       --form-string "query=$query" >> "$OUT_FOLDER_LOKET"/"$current_date-$filename"/"$count_ttl_filename"; then
 
