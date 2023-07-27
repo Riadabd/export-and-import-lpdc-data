@@ -160,3 +160,11 @@ DELETE WHERE {
 ```
 
 Restore the values inside `config/virtuoso/virtuoso-production.ini` back to their original values (back to 1 million from 10 million).
+
+## Sanity Checks
+
+Once the import is finished, we need to perform some sanity checks to make sure the number of triples for each LPDC type matches between Loket and the new LPDC production environment.
+
+In order to streamline these checks, a script (`sanity_checks.sh`) has been made to automatically execute the `COUNT` queries inside `sanity_queries/` on two endpoints (one for Loket and another for LPDC). The results are sent to `results/results.csv`, which contains the type being counted, the count of this type in Loket, its count in the new LPDC app, and whether they are equal (`type,loket_count,lpdc_count,equal`).
+
+The default endpoints are `http://localhost:8890` for LPDC, and `http:localhost:8892` for Loket. These can be changed by passing the `--lpdc-sparql-endpoint` and `--loket-sparql-endpoint` flags respectively.
