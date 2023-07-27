@@ -25,7 +25,7 @@ virtuoso:
     command: "tail -f /dev/null"
 ```
 
-Load now the production database into your local `app-digitaal-loket` repo and wait for migrations to run. Once done, comment out `command: "tail -f /dev/null"`, and data export can commence.
+Load the production database into your local `app-digitaal-loket` repo and wait for migrations to run. Once done, comment out `command: "tail -f /dev/null"`. Data export can now commence.
 
 Exporting the data will occur through [sparql-export-script](https://github.com/Riadabd/sparql-export-script). The necessary `CONSTRUCT` queries should be placed inside the `queries/` directory; these queries have already been written and are ready to be used. The default endpoint for the export service is `http://localhost:8890`, so there is no need to specify one (provided you have the loket repo running and are using the default SPARQL endpoint).
 
@@ -38,7 +38,15 @@ If `--write-temp-graphs <graph-name>` is passed as an argument for the script, i
 
 After exporting is finished, the resulting exports for each type are placed in individual folders and stored inside the local `tmp/` folder; these folders can then be copied to `import-lpdc-production-data/` (or any other folder name) inside `config/migrations/local/2023/` in `app-lpdc-digitaal-loket-prod` to allow the migrations to run.
 
-Before running migrations in `app-lpdc-digitaal-loket`, make sure to edit the parameters described in the [Note on Virtuoso settings](#note-on-virtuoso-settings) section.
+Before running migrations in `app-lpdc-digitaal-loket`, make sure to edit the parameters described in the [Note on Virtuoso settings](#note-on-virtuoso-settings) section. After editing the parameters, add the following to your `docker-compose.override.yml` file:
+
+```
+virtuoso:
+    volumes:
+      - ./data/db:/data
+      - ./config/virtuoso/virtuoso-production.ini:/data/virtuoso.ini
+      - ./config/virtuoso/:/opt/virtuoso-scripts
+```
 
 Shut down the running stack in `app-digitaal-loket` (`drc down`) and start the migrations for `app-lpdc-digitaal-loket` (`drc up -d migrations`).
 
