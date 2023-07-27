@@ -1,0 +1,10 @@
+SELECT COUNT DISTINCT *  WHERE {
+  VALUES ?type {
+    <https://www.w3.org/ns/activitystreams#Tombstone>
+  }
+  
+  GRAPH ?g {
+    ?s a ?type ;
+      ?p ?o .
+  }
+}
