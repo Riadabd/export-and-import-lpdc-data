@@ -9,8 +9,6 @@ OUT_FOLDER_LPDC="tmp_count_lpdc"
 LPDC_SPARQL_ENDPOINT="http://localhost:8890/sparql"
 LOKET_SPARQL_ENDPOINT="http://localhost:8892/sparql"
 
-WRITE_TEMP_GRAPH=false
-
 while :; do
   case $1 in
     --lpdc-sparql-endpoint)
