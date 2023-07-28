@@ -1,0 +1,15 @@
+DELETE {
+  ?s ?p ?o .
+}
+WHERE {
+  VALUES ?type {
+    <http://www.w3.org/ns/locn#Address>
+  }
+
+  GRAPH ?g {
+    ?s a ?type ;
+      ?p ?o .
+  }
+
+  FILTER(regex(STR(?g), "(http://mu.semte.ch/graphs/organizations/.*/LoketLB-LPDCGebruiker|http://mu.semte.ch/graphs/public)"))
+}
