@@ -193,3 +193,15 @@ Once the import is finished, we need to perform some sanity checks to make sure 
 In order to streamline these checks, a script (`sanity_checks.sh`) has been made to automatically execute the `COUNT` queries inside `sanity_queries/` on two endpoints (one for Loket and another for LPDC). The results are sent to `results/results.csv`, which contains the type being counted, the count of this type in Loket, its count in the new LPDC app, and whether they are equal (`type,loket_count,lpdc_count,equal`).
 
 The default endpoints are `http://localhost:8890` for LPDC, and `http:localhost:8892` for Loket. These can be changed by passing the `--lpdc-sparql-endpoint` and `--loket-sparql-endpoint` flags respectively.
+
+## Delete Data in Case of Success/Re-run
+
+The process described above, as it stands, should work without issues; however, it is possible something goes wrong during the export/import process. We have to consider the possibility of both cases:
+
+### Success
+
+In this case, we want to delete all LPDC data from the dev, QA and Prod Loket environments. The `DELETE` queries inside `delete_queries/` will be executed by `delete_queries.sh`; the SPARQL endpoint is provided through `--sparql-endpoint` and is set to `http://localhost:8890` by default.
+
+### Failure
+
+Similar to the success state, LPDC data needs to be deleted from the LPDC prod instance in case of import or sanity check failure. The same `DELETE` queries inside `delete_queries\` need to be run through `delete_queries.sh`, and the SPARQL endpoint needs to be specified.
