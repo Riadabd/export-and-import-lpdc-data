@@ -57,7 +57,6 @@ for path in sanity_queries/*.sparql; do
     mkdir -p "$OUT_FOLDER_LOKET"/"$current_date-$filename"
     mkdir -p "$OUT_FOLDER_LPDC"/"$current_date-$filename"
     count_ttl_filename="$current_date-$filename.ttl"
-    count_graph_filename="$current_date-$filename.graph"
 
     lpdc_type_count=0
     loket_type_count=0
