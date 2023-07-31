@@ -30,7 +30,7 @@ done
 mkdir -p "$OUT_FOLDER"
 rm -rf "$OUT_FOLDER"/*
 
-for path in sanity_queries/*.sparql; do
+for path in delete_queries/*.sparql; do
     filename=$(basename "$path" .sparql)
     type=$(echo $filename | rev | cut -d '-' -f 1 | rev)
 
