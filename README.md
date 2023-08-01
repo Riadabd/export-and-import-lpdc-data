@@ -190,7 +190,9 @@ Restore the values inside `config/virtuoso/virtuoso-production.ini` back to thei
 
 Once the import is finished, we need to perform some sanity checks to make sure the number of triples for each LPDC type matches between Loket and the new LPDC production environment.
 
-In order to streamline these checks, a script (`sanity_checks.sh`) has been made to automatically execute the `COUNT` queries inside `sanity_queries/` on two endpoints (one for Loket and another for LPDC). The results are sent to `results/results.csv`, which contains the type being counted, the count of this type in Loket, its count in the new LPDC app, and whether they are equal (`type,loket_count,lpdc_count,equal`).
+In order to streamline these checks, a script (`sanity_checks.sh`) has been made to automatically execute the `COUNT` queries inside `sanity_queries/` on two endpoints (one for Loket and another for LPDC). The results are sent to `results/sanity_type_count_results.csv`, which contains the type being counted, the count of this type in Loket, its count in the new LPDC app, and whether they are equal (`type,loket_count,lpdc_count,equal`).
+
+The type count checks are done on a global level, so we cannot see how they are divided, but they do give us confidence if the numbers match up. To further push that confidence level, we also perform a sanity check to count the number of instantiated public services per bestuurseenheid, for both Loket and LPDC. In order to perform this check, execute `select_queries.sh` first in order to download a list of non-eredienst bestuurseenheden (located in `tmp_select_out/non_eredienst_bestuurseenheden.csv`). After performing the regular type count checks, `sanity_checks.sh` confirms the existence of the aforementioned csv file and runs queries to count the number of public services for distinct bestuurseenheden. The result of this is piped into `results/sanity_public_services_count_per_bestuurseenheid_results.csv`, in a similar fashion to `results/sanity_type_count_results.csv`.
 
 The default endpoints are `http://localhost:8890` for LPDC, and `http:localhost:8892` for Loket. These can be changed by passing the `--lpdc-sparql-endpoint` and `--loket-sparql-endpoint` flags respectively.
 
@@ -200,7 +202,7 @@ The process described above, as it stands, should work without issues; however, 
 
 ### Success
 
-In this case, we want to delete all LPDC data from the dev, QA and Prod Loket environments. The `DELETE` queries inside `delete_queries/` will be executed by `delete_queries.sh`; the SPARQL endpoint is provided through `--sparql-endpoint` and is set to `http://localhost:8890` by default.
+In this case, we want to delete all LPDC data from the dev, QA and production Loket environments. The `DELETE` queries inside `delete_queries/` will be executed by `delete_queries.sh`; the SPARQL endpoint is provided through `--sparql-endpoint` and is set to `http://localhost:8890` by default.
 
 ### Failure
 
