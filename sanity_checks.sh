@@ -89,9 +89,9 @@ for path in sanity_queries/*.sparql; do
     fi;
 
     if [ $lpdc_type_count == $loket_type_count ]; then
-      echo "$type,$loket_type_count,$lpdc_type_count,✅" >> "./results/results.csv"
+      echo "$type,$loket_type_count,$lpdc_type_count,✅" >> "./results/sanity_type_count_results.csv"
     else
-      echo "$type,$loket_type_count,$lpdc_type_count,❌" >> "./results/results.csv"
+      echo "$type,$loket_type_count,$lpdc_type_count,❌" >> "./results/sanity_type_count_results.csv"
     fi;
 
     echo -e "================================================================================\n"
