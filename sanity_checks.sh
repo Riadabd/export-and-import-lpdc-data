@@ -45,8 +45,8 @@ rm -rf "$OUT_FOLDER_LPDC"/*
 
 # Store Loket and LPDC count results in a CSV file
 mkdir -p "results/"
-touch "./results/results.csv"
-echo "type,loket_count,lpdc_count,equal" > "./results/results.csv"
+touch "./results/sanity_type_count_results.csv"
+echo "type,loket_count,lpdc_count,equal" > "./results/sanity_type_count_results.csv"
 
 for path in sanity_queries/*.sparql; do
     filename=$(basename "$path" .sparql)
@@ -98,7 +98,7 @@ for path in sanity_queries/*.sparql; do
 done
 
 echo "[INFO] Export done! You can find your count export(s) in $OUT_FOLDER_LOKET and $OUT_FOLDER_LPDC."
-echo "[INFO] Count results are in results/results.csv"
+echo "[INFO] Count results are in results/sanity_type_count_results.csv"
 
 if ((FAILED > 0)); then
   echo "[WARNING] $FAILED queries failed, export incomplete ..."
