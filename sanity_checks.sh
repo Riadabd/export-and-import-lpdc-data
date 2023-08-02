@@ -54,7 +54,7 @@ touch "./results/sanity_type_count_results.csv"
 echo "type,loket_count,lpdc_count,equal" > "./results/sanity_type_count_results.csv"
 
 touch "./results/sanity_type_count_results.csv"
-echo "bestuursType, label, loket_bestuurs_count,lpdc_bestuurs_count,equal" > "./results/sanity_public_services_count_per_bestuurseenheid_results.csv"
+echo "bestuursType,label,loket_bestuurs_count,lpdc_bestuurs_count,equal" > "./results/sanity_public_services_count_per_bestuurseenheid_results.csv"
 
 for path in sanity_queries/*.sparql; do
     filename=$(basename "$path" .sparql)
@@ -108,7 +108,7 @@ done
 echo "[INFO] Export done! You can find your count export(s) in $OUT_FOLDER_LOKET and $OUT_FOLDER_LPDC."
 echo "[INFO] Count results for types are in results/sanity_type_count_results.csv"
 
-if [ -z "./tmp_select_output/non_eredienst_bestuurseenheden.csv" ]; then
+if [ -f "./tmp_select_output/non_eredienst_bestuurseenheden.csv" ]; then
   while IFS="," read -r h bestuursType label; do
   string=$(cat << EOF
 SELECT COUNT DISTINCT * WHERE {
@@ -123,7 +123,7 @@ EOF
   lpdc_bestuurs_count=0
   loket_bestuurs_count=0
 
-  if curl --fail -X POST "$SPARQL_ENDPOINT" \
+  if curl --fail -X POST "$LPDC_SPARQL_ENDPOINT" \
     -H 'Accept: text/csv' \
     --form-string "query=$string" > "$OUT_FOLDER"/count_results.csv; then
 
@@ -133,7 +133,7 @@ EOF
     FAILED+=1
   fi;
 
-  if curl --fail -X POST "$SPARQL_ENDPOINT" \
+  if curl --fail -X POST "$LOKET_SPARQL_ENDPOINT" \
     -H 'Accept: text/csv' \
     --form-string "query=$string" > "$OUT_FOLDER"/count_results.csv; then
 
