@@ -141,7 +141,12 @@ When trying out the export/import process locally, I was getting a total of 421 
 Once everything is set up, we can delete all data inside the temporary graphs:
 
 ```
-DELETE WHERE {
+DELETE {
+  GRAPH ?g {
+    ?s ?p ?o .
+  }
+}
+WHERE {
   VALUES ?g {
     <http://mu.semte.ch/graphs/temp/ConceptualPublicService>
     <http://mu.semte.ch/graphs/temp/PublicService>
