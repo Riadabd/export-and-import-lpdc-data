@@ -27,12 +27,23 @@ virtuoso:
 
 Load the production database into your local `app-digitaal-loket` repo and wait for migrations to run. Once done, comment out `command: "tail -f /dev/null"`. Data export can now commence.
 
-Exporting the data will occur through [sparql-export-script](https://github.com/Riadabd/sparql-export-script). The necessary `CONSTRUCT` queries should be placed inside the `construct_queries/` directory; these queries have already been written and are ready to be used. The default endpoint for the export service is `http://localhost:8890`, so there is no need to specify one (provided you have the loket repo running and are using the default SPARQL endpoint).
-
-If `--write-temp-graphs <graph-name>` is passed as an argument for the script, it will automatically generate a graph file alongside the turtle file with the following naming scheme:
-
-* Script name: `construct-ConceptDisplayConfiguration.sparql`
-* If "graph-name" was passed as `http://mu.semte.ch/graphs/temp`, the resulting graph file will contain `http://mu.semte.ch/graphs/temp/ConceptDisplayConfiguration` as the temporary graph.
+Exporting the data will occur through [sparql-export-script](https://github.com/Riadabd/sparql-export-script). The necessary `CONSTRUCT` queries should be placed inside the `construct_queries/` directory; these queries have already been written and are ready to be used. The default endpoint for the export service is `http://localhost:8890`, so there is no need to specify one (provided you have the loket repo running and are using the default SPARQL endpoint). The script will output a turtle file for each type; they are as follows:
+* Address
+* Concept Display Configuration
+* Conceptual Public Service
+* Contact Point
+* Cost
+* Evidence
+* Financial Advantage
+* Legal Resource
+* Location
+* Output
+* Public Organization
+* Public Service
+* Requirement
+* Rule
+* Tombstone
+* Website
 
 ## Import LPDC production data
 
