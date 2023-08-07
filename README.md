@@ -136,7 +136,7 @@ SELECT * WHERE {
 }
 ```
 
-When trying out the export/import process locally, I was getting a total of 421 concepts instead of the expected 420 since the extra deleted snapshot was showing up in the list; the goal is to find a way to hide this archived concept from the user. A ticket has been made to address this issue: [https://binnenland.atlassian.net/browse/LPDC-589](https://binnenland.atlassian.net/browse/LPDC-589).
+Once you get the number of archived concepts, make sure to check that the total number of concepts in the concept list aligns with that of Loket.
 
 Once everything is set up, we can delete all data inside the temporary graphs:
 
