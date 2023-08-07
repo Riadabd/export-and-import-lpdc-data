@@ -47,21 +47,34 @@ Exporting the data will occur through [sparql-export-script](https://github.com/
 
 ## Import LPDC production data
 
-After exporting is finished, the resulting exports for each type are placed in individual folders and stored inside the local `tmp/` folder; these folders can then be copied to `import-lpdc-production-data/` (or any other folder name) inside `config/migrations/local/2023/` in `app-lpdc-digitaal-loket-prod` to allow the migrations to run.
-
-Before running migrations in `app-lpdc-digitaal-loket`, make sure to edit the parameters described in the [Note on Virtuoso settings](#note-on-virtuoso-settings) section. After editing the parameters, add the following to your `docker-compose.override.yml` file:
+After exporting is finished, the resulting turtle files for each type are stored inside the local `tmp/` folder of the `sparql-export-script` project. We will be using the `iSQL-v` interface in order to quickly and robustly import the data. Copy the turtle files into any folder and add the following to your `docker-compose.override.yml` file:
 
 ```
 virtuoso:
-    volumes:
-      - ./data/db:/data
-      - ./config/virtuoso/virtuoso-production.ini:/data/virtuoso.ini
-      - ./config/virtuoso/:/opt/virtuoso-scripts
+  volumes:
+    - ./data/db:/data
+    - ./config/virtuoso/virtuoso-production.ini:/data/virtuoso.ini
+    - ./config/virtuoso/:/opt/virtuoso-scripts
+    - <location/to/turtle/files>:/tmp/lpdc-production-ttl-files
 ```
 
-Shut down the running stack in `app-digitaal-loket` (`drc down`) and start the migrations for `app-lpdc-digitaal-loket` (`drc up -d migrations`).
+Add the `import-lpdc-production-data.sh` script to the volume mounts of `virtuoso` as well:
 
-Once the migrations have run, the following `INSERT` queries can be performed to place triples back to their original graphs:
+```
+virtuoso:
+  volumes:
+    - ./data/db:/data
+    - ./config/virtuoso/virtuoso-production.ini:/data/virtuoso.ini
+    - ./config/virtuoso/:/opt/virtuoso-scripts
+    - <location/to/turtle/files>:/tmp/lpdc-production-ttl-files
+    - <location/to/import-lpdc-production-data.sh>:/tmp/import-lpdc-production-data.sh
+```
+
+Before running migrations in `app-lpdc-digitaal-loket`, make sure to edit the parameters described in the [Note on Virtuoso settings](#note-on-virtuoso-settings) section. Run `docker compose up -d migrations` and wait for the migrations to complete. Enter the `virtuoso` container (`docker compose exec virtuoso bash`) and `cd /tmp`; you will find the script and a folder containing the LPDC production turtle files.
+
+Running the script (`./import-lpdc-production-data.sh`) will quickly load all triples into the database.
+
+Once all turtle files have been imported, the following `INSERT` queries can be performed to place triples back to their original graphs:
 
 ```
 PREFIX ext: <http://mu.semte.ch/vocabularies/ext/>
