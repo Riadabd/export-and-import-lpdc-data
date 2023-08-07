@@ -201,6 +201,30 @@ The type count checks are done on a global level, so we cannot see how they are 
 
 The default endpoints are `http://localhost:8890` for LPDC, and `http:localhost:8892` for Loket. These can be changed by passing the `--lpdc-sparql-endpoint` and `--loket-sparql-endpoint` flags respectively.
 
+### In case of mismatch
+
+At the moment, only the `Requirement` type is displaying mismatches after the import process. The reason is due to the `<http://mu.semte.ch/vocabularies/core/uuid>` predicate being copied to the `ldes-data` graph; it should only be present in the `public graph`. The query below deletes the excessive triples:
+
+```
+PREFIX ext: <http://mu.semte.ch/vocabularies/ext/>
+
+DELETE {
+  GRAPH <http://mu.semte.ch/graphs/lpdc/ldes-data> {
+    ?s <http://mu.semte.ch/vocabularies/core/uuid> ?o .
+  }
+}
+WHERE {
+  VALUES ?type {
+    <http://data.europa.eu/m8g/Requirement>
+  }
+
+  GRAPH <http://mu.semte.ch/graphs/lpdc/ldes-data> {
+    ?s a ?type ;
+      <http://mu.semte.ch/vocabularies/core/uuid> ?o .
+  }
+}
+```
+
 ## Delete Data in Case of Success/Re-run
 
 The process described above, as it stands, should work without issues; however, it is possible something goes wrong during the export/import process. We have to consider the possibility of both cases:
