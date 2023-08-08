@@ -1,7 +1,9 @@
 DELETE {
-  ?s ?p ?o .
+  GRAPH ?g {
+    ?s ?p ?o .
 
-  ?target ?targetP ?s .
+    ?target ?targetP ?s .
+  }  
 }
 WHERE {
   VALUES ?type {

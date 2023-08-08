@@ -1,5 +1,7 @@
 DELETE {
-  ?s ?p ?o .
+  GRAPH ?g {
+    ?s ?p ?o .
+  }
 }
 WHERE {
   VALUES ?type {
