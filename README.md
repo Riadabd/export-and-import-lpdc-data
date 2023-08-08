@@ -227,7 +227,7 @@ The default endpoints are `http://localhost:8890` for LPDC, and `http:localhost:
 
 ### In case of mismatch
 
-At the moment, only the `Requirement` type is displaying mismatches after the import process. The reason is due to the `<http://mu.semte.ch/vocabularies/core/uuid>` predicate being copied to the `ldes-data` graph; it should only be present in the `public graph`. The query below deletes the excessive triples:
+At the moment, only the `Requirement` type is displaying mismatches after the import process. The reason is due to the `<http://mu.semte.ch/vocabularies/core/uuid>` predicate being copied to the `ldes-data` graph; it should only be present in the `public graph`. The query below deletes the excess triples:
 
 ```
 PREFIX ext: <http://mu.semte.ch/vocabularies/ext/>
