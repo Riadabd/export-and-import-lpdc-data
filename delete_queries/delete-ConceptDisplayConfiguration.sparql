@@ -1,9 +1,6 @@
-PREFIX ext: <http://mu.semte.ch/vocabularies/ext/>
+DELETE {
+  ?s ?p ?o .
 
-CONSTRUCT {
-  ?s ?p ?o ;
-    ext:wasInGraph ?g .
-  
   ?target ?targetP ?s .
 }
 WHERE {
