@@ -1,4 +1,4 @@
-SELECT COUNT DISTINCT *  WHERE {
+SELECT COUNT DISTINCT * WHERE {
   VALUES ?type {
     <http://purl.org/vocab/cpsv#PublicService>
   }

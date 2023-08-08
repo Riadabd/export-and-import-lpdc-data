@@ -1,4 +1,4 @@
-SELECT COUNT DISTINCT *  WHERE {
+SELECT COUNT DISTINCT * WHERE {
   VALUES ?type {
     <https://www.w3.org/ns/activitystreams#Tombstone>
   }
