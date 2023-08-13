@@ -70,7 +70,7 @@ virtuoso:
     - <location/to/import-lpdc-production-data.sh>:/tmp/import-lpdc-production-data.sh
 ```
 
-Before running migrations in `app-lpdc-digitaal-loket`, make sure to edit the parameters described in the [Note on Virtuoso settings](#note-on-virtuoso-settings) section. Run `docker compose up -d migrations` and wait for the migrations to complete. Enter the `virtuoso` container (`docker compose exec virtuoso bash`) and `cd /tmp`; you will find the script and a folder containing the LPDC production turtle files.
+Before running migrations in `app-lpdc-digitaal-loket`, make sure to edit the parameters described in the [Note on Virtuoso settings](#note-on-virtuoso-settings) section. Run `docker compose up -d virtuoso` and wait for `virtuoso` to start up (by seeing `Server online at 1111 (pid 1)` in the logs). Enter the `virtuoso` container (`docker compose exec virtuoso bash`) and `cd /tmp`; you will find the script (`import-lpdc-production-data.sh`) and a folder containing the LPDC production turtle files.
 
 Running the script (`./import-lpdc-production-data.sh`) will quickly load all triples into the database.
 
