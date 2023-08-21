@@ -32,7 +32,7 @@ rm -rf "$OUT_FOLDER"/*
 
 for path in select_queries/*.sparql; do
     filename=$(basename "$path" .sparql)
-    type=$(echo $filename | rev | cut -d '-' -f 1 | rev)
+    type=$(echo $filename | cut -d '.' -f 1)
 
     # Create a folder containing a turtle file with the current timestamp
     current_date=$(date '+%Y%m%d%H%M%S')
@@ -47,7 +47,7 @@ for path in select_queries/*.sparql; do
       echo "Select for $type was successful!"
 
       # Strip all double quotes ("") from the URIs and pipe to new output file
-      cat "$OUT_FOLDER"/"$current_date-$filename"/"$count_ttl_filename" | sed 's/"//g' > "$OUT_FOLDER"/non_eredienst_bestuurseenheden.csv
+      cat "$OUT_FOLDER"/"$current_date-$filename"/"$count_ttl_filename" | sed 's/"//g' > "$OUT_FOLDER"/"$type".csv
     else
       echo "[ERROR] Select for $type failed!"
       FAILED+=1

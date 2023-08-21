@@ -1,6 +1,6 @@
 PREFIX besluit: <http://data.vlaanderen.be/ns/besluit#>
 
-SELECT DISTINCT ?h ?bestuursType ?label WHERE {
+SELECT DISTINCT ?g ?bestuursType ?label WHERE {
   GRAPH ?g {
     ?s a besluit:Bestuurseenheid ;
       <http://www.w3.org/2004/02/skos/core#prefLabel> ?label ;
