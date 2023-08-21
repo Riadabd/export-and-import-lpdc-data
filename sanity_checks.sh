@@ -110,7 +110,7 @@ echo "[INFO] Count results for types are in results/sanity_type_count_results.cs
 
 if [ -f "./tmp_select_output/non_eredienst_bestuurseenheden.csv" ]; then
   while IFS="," read -r h bestuursType label; do
-  string=$(cat << EOF
+    string=$(cat << EOF
 SELECT COUNT DISTINCT * WHERE {
   GRAPH <$h> {
     ?s a <http://purl.org/vocab/cpsv#PublicService> ;
@@ -120,36 +120,36 @@ SELECT COUNT DISTINCT * WHERE {
 EOF
 )
 
-  lpdc_bestuurs_count=0
-  loket_bestuurs_count=0
+    lpdc_bestuurs_count=0
+    loket_bestuurs_count=0
 
-  if curl --fail -X POST "$LPDC_SPARQL_ENDPOINT" \
-    -H 'Accept: text/csv' \
-    --form-string "query=$string" > "$OUT_FOLDER"/count_results.csv; then
+    if curl --fail -X POST "$LPDC_SPARQL_ENDPOINT" \
+      -H 'Accept: text/csv' \
+      --form-string "query=$string" > "$OUT_FOLDER"/count_results.csv; then
 
-    lpdc_bestuurs_count=$(cat "$OUT_FOLDER"/count_results.csv | tail -n +2)
-  else
-    echo "[ERROR] "
-    FAILED+=1
-  fi;
+      lpdc_bestuurs_count=$(cat "$OUT_FOLDER"/count_results.csv | tail -n +2)
+    else
+      echo "[ERROR] "
+      FAILED+=1
+    fi;
 
-  if curl --fail -X POST "$LOKET_SPARQL_ENDPOINT" \
-    -H 'Accept: text/csv' \
-    --form-string "query=$string" > "$OUT_FOLDER"/count_results.csv; then
+    if curl --fail -X POST "$LOKET_SPARQL_ENDPOINT" \
+      -H 'Accept: text/csv' \
+      --form-string "query=$string" > "$OUT_FOLDER"/count_results.csv; then
 
-    loket_bestuurs_count=$(cat "$OUT_FOLDER"/count_results.csv | tail -n +2)
-  else
-    echo "[ERROR] Select for $type failed!"
-    FAILED+=1
-  fi;
+      loket_bestuurs_count=$(cat "$OUT_FOLDER"/count_results.csv | tail -n +2)
+    else
+      echo "[ERROR] Select for $type failed!"
+      FAILED+=1
+    fi;
 
-  if [ $lpdc_bestuurs_count == $loket_bestuurs_count ]; then
-    echo "$bestuursType,$label,$loket_bestuurs_count,$lpdc_bestuurs_count,✅" >> "./results/sanity_public_services_count_per_bestuurseenheid_results.csv"
-  else
-    echo "$bestuursType,$label,$loket_bestuurs_count,$lpdc_bestuurs_count,❌" >> "./results/sanity_public_services_count_per_bestuurseenheid_results.csv"
-  fi;
+    if [ $lpdc_bestuurs_count == $loket_bestuurs_count ]; then
+      echo "$bestuursType,$label,$loket_bestuurs_count,$lpdc_bestuurs_count,✅" >> "./results/sanity_public_services_count_per_bestuurseenheid_results.csv"
+    else
+      echo "$bestuursType,$label,$loket_bestuurs_count,$lpdc_bestuurs_count,❌" >> "./results/sanity_public_services_count_per_bestuurseenheid_results.csv"
+    fi;
 
-done < <(tail -n +2 tmp_select_output/non_eredienst_bestuurseenheden.csv)
+  done < <(tail -n +2 tmp_select_output/non_eredienst_bestuurseenheden.csv)
 fi;
 
 echo "[INFO] Count results for public services per bestuurseenheid are in results/sanity_public_services_count_per_bestuurseenheid_results.csv"
