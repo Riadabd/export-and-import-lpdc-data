@@ -1,0 +1,33 @@
+PREFIX besluit: <http://data.vlaanderen.be/ns/besluit#>
+
+SELECT DISTINCT ?h ?bestuursType ?label WHERE {
+  GRAPH ?g {
+    ?s a besluit:Bestuurseenheid ;
+      <http://www.w3.org/2004/02/skos/core#prefLabel> ?label ;
+      <http://data.vlaanderen.be/ns/besluit#classificatie> ?classificatie .
+    
+    ?classificatie <http://www.w3.org/2004/02/skos/core#prefLabel> ?bestuursType .
+  }
+
+  FILTER NOT EXISTS {
+    ?s a <http://data.lblod.info/vocabularies/erediensten/EredienstMandataris> .
+  }
+  FILTER NOT EXISTS {
+    ?s a <http://data.lblod.info/vocabularies/erediensten/EredienstBestuurseenheid> .
+  }
+  FILTER NOT EXISTS {
+    ?s a <http://data.lblod.info/vocabularies/erediensten/BestuurVanDeEredienst> .
+  }
+  FILTER NOT EXISTS {
+    ?s a <http://data.lblod.info/vocabularies/erediensten/CentraalBestuurVanDeEredienst> .
+  }
+  FILTER NOT EXISTS {
+    ?s a <http://data.lblod.info/vocabularies/erediensten/RepresentatiefOrgaan> .
+  }
+
+  FILTER (?h NOT IN (
+    <http://redpencil.data.gift/id/deltas/producer/loket-mandatarissen-producer>,
+    <http://redpencil.data.gift/id/deltas/producer/loket-leidinggevenden-producer>,
+    <http://redpencil.data.gift/id/deltas/producer/loket-persons-sensitive>
+  ))
+}
