@@ -48,13 +48,14 @@ mkdir -p "$OUT_FOLDER_LPDC"
 rm -rf "$OUT_FOLDER_LPDC"/*
 
 # Store Loket and LPDC count results in a CSV file
-mkdir -p "results/"
+rm -rf "results/"
+mkdir "results/"
 
 touch "./results/sanity_type_count_results.csv"
 echo "type,loket_count,lpdc_count,equal" > "./results/sanity_type_count_results.csv"
 
-touch "./results/sanity_type_count_results.csv"
-echo "bestuursType,label,loket_bestuurs_count,lpdc_bestuurs_count,equal" > "./results/sanity_public_services_count_per_bestuurseenheid_results.csv"
+touch "./results/sanity_checks_for_instance_public_services.csv"
+echo "bestuursType,label,loket_bestuurs_count,lpdc_bestuurs_count,equal" > "./results/sanity_checks_for_instance_public_services.csv"
 
 for path in sanity_queries/*.sparql; do
     filename=$(basename "$path" .sparql)
@@ -108,7 +109,7 @@ done
 echo "[INFO] Export done! You can find your count export(s) in $OUT_FOLDER_LOKET and $OUT_FOLDER_LPDC."
 echo "[INFO] Count results for types are in results/sanity_type_count_results.csv"
 
-if [ -f "./tmp_select_output/non_eredienst_bestuurseenheden.csv" ]; then
+if [ -f "./tmp_select_output/select_non_eredienst_bestuurseenheden_having_instance_public_services.csv" ]; then
   while IFS="," read -r h bestuursType label; do
     string=$(cat << EOF
 SELECT COUNT DISTINCT * WHERE {
@@ -144,15 +145,15 @@ EOF
     fi;
 
     if [ $lpdc_bestuurs_count == $loket_bestuurs_count ]; then
-      echo "$bestuursType,$label,$loket_bestuurs_count,$lpdc_bestuurs_count,✅" >> "./results/sanity_public_services_count_per_bestuurseenheid_results.csv"
+      echo "$bestuursType,$label,$loket_bestuurs_count,$lpdc_bestuurs_count,✅" >> "./results/sanity_checks_for_instance_public_services.csv"
     else
-      echo "$bestuursType,$label,$loket_bestuurs_count,$lpdc_bestuurs_count,❌" >> "./results/sanity_public_services_count_per_bestuurseenheid_results.csv"
+      echo "$bestuursType,$label,$loket_bestuurs_count,$lpdc_bestuurs_count,❌" >> "./results/sanity_checks_for_instance_public_services.csv"
     fi;
 
-  done < <(tail -n +2 tmp_select_output/non_eredienst_bestuurseenheden.csv)
+  done < <(tail -n +2 tmp_select_output/select_non_eredienst_bestuurseenheden_having_instance_public_services.csv)
 fi;
 
-echo "[INFO] Count results for public services per bestuurseenheid are in results/sanity_public_services_count_per_bestuurseenheid_results.csv"
+echo "[INFO] Count results for public services per bestuurseenheid are in results/sanity_checks_for_instance_public_services.csv"
 
 if ((FAILED > 0)); then
   echo "[WARNING] $FAILED queries failed, export incomplete ..."
