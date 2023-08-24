@@ -213,7 +213,13 @@ WHERE {
 }
 ```
 
-Restore the values inside `config/virtuoso/virtuoso-production.ini` back to their original values (back to 1 million from 10 million).
+Once the setup queries have run, execute a manual database checkpoint as such:
+* `docker compose exec virtuoso isql-v`
+* You are now inside the virtuoso iSQL interface.
+* Run `exec('checkpoint');`
+* Press `Ctrl+D` or type `exit` in the command-line interface in order to exit.
+
+After performing the steps above, comment out the `virtuoso` volume mounts from `docker-compose.override.yml` and restore the values inside `config/virtuoso/virtuoso-production.ini` back to their original values (back to 1 million from 10 million).
 
 ## Sanity Checks
 
