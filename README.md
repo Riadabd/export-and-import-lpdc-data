@@ -160,7 +160,7 @@ SELECT * WHERE {
 }
 ```
 
-Once you get the number of archived concepts, make sure to check that the total number of concepts in the concept list aligns with that of Loket.
+At the moment, the total number of concepts between our and IPDC's side is not matching up; further information can be found in [this ticket](https://binnenland.atlassian.net/browse/LPDC-644).
 
 Once everything is set up, we can delete all data inside the temporary graphs:
 
