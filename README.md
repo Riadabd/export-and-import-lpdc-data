@@ -219,6 +219,16 @@ Once the setup queries have run, execute a manual database checkpoint as such:
 * Run `exec('checkpoint');`
 * Press `Ctrl+D` or type `exit` in the command-line interface in order to exit.
 
+Backing up the newly imported data is also a good way to better our safety net:
+* `docker compose exec -i virtuoso_container mkdir -p backups`
+* `docker exec -i virtuoso_container isql-v`
+* You are now inside the virtuoso iSQL interface.
+* `exec('checkpoint');`
+* `backup_context_clear();`
+* `backup_online('backup_',30000,0,vector('backups'));`
+* `exit;`
+* You should see `.bp` files inside `data/db/backups`.
+
 After performing the steps above, comment out the `virtuoso` volume mounts from `docker-compose.override.yml` and restore the values inside `config/virtuoso/virtuoso-production.ini` back to their original values (back to 1 million from 10 million).
 
 ## Sanity Checks
